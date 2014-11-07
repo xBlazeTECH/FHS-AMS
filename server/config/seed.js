@@ -6,6 +6,7 @@
 'use strict';
 
 var Thing = require('../api/thing/thing.model');
+var Profile = require('../api/profile/profile.model');
 var User = require('../api/user/user.model');
 
 Thing.find({}).remove(function() {
@@ -27,6 +28,21 @@ Thing.find({}).remove(function() {
   },{
     name : 'Deployment Ready',
     info : 'Easily deploy your app to Heroku or Openshift with the heroku and openshift subgenerators'
+  });
+});
+
+Profile.find({}).remove(function() {
+  Profile.create({
+    pin : '15379',
+    nameFirst : 'Lansing',
+    nameLast : 'Nye-Madden',
+    disabled : false
+  },{
+    pin : '15180',
+    nameFirst : 'Eric',
+    nameLast : 'Sims',
+    disabled : true,
+    disableReason : 'Disabled by Administrator'
   });
 });
 

@@ -2,6 +2,15 @@
     margin: 20px 0;
 }
 
+.panel-body-custom {
+	padding-bottom: 0px;
+}
+
+.thing-form label {
+	font-size:150%;
+	margin-bottom: 20px;
+}
+
 #banner {
     border-bottom: none;
     margin-top: -20px;
