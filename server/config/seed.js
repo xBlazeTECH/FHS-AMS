@@ -42,7 +42,7 @@ Profile.find({}).remove(function() {
     nameFirst : 'Eric',
     nameLast : 'Sims',
     disabled : true,
-    disableReason : 'Disabled by Administrator'
+    disableReason : 'Disabled by Administrator!'
   });
 });
 

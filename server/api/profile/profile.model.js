@@ -7,7 +7,7 @@ var ProfileSchema = new Schema({
   pin: String,
   nameFirst: String,
   nameLast: String,
-  disabled: false,
+  disabled: Boolean,
   disableReason: String
 });
 

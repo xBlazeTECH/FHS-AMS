@@ -1,48 +1,55 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container">
-  <div class="panel panel-default">
-    <div class="panel-heading" ng-style="panelStyle()">
+  <div class="panel {{formStyle}}">
+    <div class="panel-heading">
     <h1>Math Tutorial Sign-In</h1>
     </div>
-    <div class="panel-body panel-body-custom" ng-class="'panel-' + errtype()'">
-      <form class="thing-form">
+    <div class="panel-body panel-body-custom">
+      <form class="thing-form" id="signin">
         <label>Please fill out the following information in order to enter the Library.</label>
         <div class="btn-group-justified">
-        <div class="alert alert-info" role="alert" ng-show="isFormState(0)"><strong>Information:</strong> Please enter your PIN below!</div>
-        <div class="alert alert-danger" role="alert" ng-show="isFormState(1)"><strong>Warning:</strong> The currently entered pin is not valid!</div>
-        <div class="alert alert-warning" role="alert" ng-show="isFormState(2)"><strong>More Info Needed:</strong> This seems to be your first time signing in.</div>
-        <div class="alert alert-success" role="alert" ng-show="isFormState(3)"><strong>Success:</strong> Your profile has been found. Please verify your name before pressing enter!</div>
+        <div class="alert alert-{{alertState.style}}"><strong>{{ alertState.title }}</strong> {{ alertState.message }}</div>
         </div>
-        <p class="input-group input-group-lg">
+        <p class="input-group input-group-lg" ng-hide="isFormState(7)">
           <span class="input-group-addon">PIN:</span>
           <input tabindex="1" type="text" class="form-control" placeholder="Please enter your pin..." ng-model="pin" ng-change="updatePin()">
           <span class="input-group-btn">
             <button tabindex="-1" class="btn btn-default disabled" type="button" ng-show="isFormState(0)">Nothing Entered <i class="glyphicon glyphicon-remove-sign"></i></button>
             <button tabindex="-1" class="btn btn-danger disabled" type="button" ng-show="isFormState(1)">Invalid Input <i class="glyphicon glyphicon-remove-sign"></i></button>
             <button tabindex="-1" class="btn btn-warning disabled" type="button" ng-show="isFormState(2)">Profile Missing <i class="glyphicon glyphicon-exclamation-sign"></i></button>
-            <button tabindex="-1" class="btn btn-success disabled" type="button" ng-show="isFormState(3)">Found Profile <i class="glyphicon glyphicon-ok-sign"></i></button>
-          </span>
+            <button tabindex="-1" class="btn btn-success disabled" type="button" ng-show="isFormState(4)">Found Profile <i class="glyphicon glyphicon-ok-sign"></i></button>
+            <button tabindex="-1" class="btn btn-warning disabled" type="button" ng-show="isFormState(5)">Account Disabled <i class="glyphicon glyphicon-exclamation-sign"></i></button>
+            </span>
         </p>
-        <p class="input-group input-group-lg" ng-show="isFormState(2)||isFormState(3)">
+        <p class="input-group input-group-lg" ng-show="isFormState(2)||isFormState(4)">
           <span class="input-group-addon">First Name:</span>
-          <input tabindex="2" type="text" class="form-control" placeholder="Please enter your First Name..." ng-model="nameFirst" ng-disabled="!isFormState(2)" ng-change="updateName('first');">
+          <input tabindex="2" type="text" class="form-control" placeholder="Please enter your First Name..." ng-model="nameFirst" ng-disabled="!isFormState(2)" ng-change="updateName();">
           <span class="input-group-btn"><button tabindex="-1" type="button" class="btn disabled" ng-class="firstname_valid ? 'btn-success' : 'btn-danger'">
             <i ng-class="firstname_valid ? 'glyphicon-ok-circle' : 'glyphicon-remove-circle' " class="glyphicon"></i>
           </button></span>
         </p>
-        <p class="input-group input-group-lg" ng-show="isFormState(2)||isFormState(3)">
+        <p class="input-group input-group-lg" ng-show="isFormState(2)||isFormState(4)">
           <span class="input-group-addon">Last Name:</span>
-          <input tabindex="3" type="text" class="form-control" placeholder="Please enter your Last Name..." ng-model="nameLast" ng-disabled="!isFormState(2)" ng-change="updateName('last')">
-          <span class="input-group-btn"><button tabindex="-1" type="button" class="btn disabled" ng-class="lastname_valid ? 'btn-success' : 'btn-danger'">
+          <input tabindex="3" type="text" class="form-control" placeholder="Please enter your Last Name..." ng-model="nameLast" ng-disabled="!isFormState(2)" ng-change="updateName();">
+          <span class="input-group-btn"><button tabindex="-1" type="button" class="btn disabled" ng-class="(lastname_valid || isFormState(4)) ? 'btn-success' : 'btn-danger'">
             <i ng-class="lastname_valid ? 'glyphicon-ok-circle' : 'glyphicon-remove-circle' " class="glyphicon"></i>
           </button></span>
         </p>
-        <div class="btn-group btn-group-lg btn-group-justified" ng-show="isFormState(2)||isFormState(3)">
-          <a class="btn btn-danger" ng-click="clearPin()">I want to start over...</i></a>        
-          <a class="btn btn-warning" ng-show="isFormState(3)">My name is incorrect...</a>        
-          <a tabindex="4" class="btn" ng-class="isFormState(3)||(firstname_valid && lastname_valid) ? 'btn-success' : 'btn-default disabled'">Sign In <i class="glyphicon" ng-class="isFormState(3)||(firstname_valid && lastname_valid) ? 'glyphicon-chevron-right' : 'glyphicon-remove-sign'"></i></a>        
-        </div>  
+        <div class="btn-group btn-group-lg btn-group-justified" ng-show="isFormState(2)||isFormState(4)">
+          <a class="btn btn-danger" ng-click="clearPin()">I want to start over...</a>        
+          <a ng-click="submit(6);"class="btn btn-warning" ng-show="isFormState(4)">My name is incorrect...</a>        
+          <a ng-click="submit(formState)" tabindex="4" class="btn" ng-class="isFormState(4)||(firstname_valid && lastname_valid) ? 'btn-success' : 'btn-danger disabled'">Sign In <i class="glyphicon" ng-class="isFormState(4)||(firstname_valid && lastname_valid) ? 'glyphicon-chevron-right' : 'glyphicon-remove-sign'"></i></a>        
+        </div>
+        <!--<div class="list-group" ng-repeat="prof in profiles">
+          <a href="#" class="list-group-item active">
+            <h4 class="list-group-item-heading">{{prof.pin}}</h4>
+            <p class="list-group-item-text">First Name: {{prof.nameFirst}}</p>
+            <p class="list-group-item-text">Last Name: {{prof.nameLast}}</p>
+            <p class="list-group-item-text">Disabled? {{prof.disabled}}</p>
+            <p class="list-group-item-text">Disabled Reason: {{prof.disableReason}}</p>
+          </a>
+        </div>-->
       </form> 
     </div>
   </div>
