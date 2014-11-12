@@ -8,6 +8,7 @@
 var Thing = require('../api/thing/thing.model');
 var Profile = require('../api/profile/profile.model');
 var User = require('../api/user/user.model');
+var Signin = require('../api/signin/signin.model');
 
 Thing.find({}).remove(function() {
   Thing.create({
@@ -43,7 +44,16 @@ Profile.find({}).remove(function() {
     nameLast : 'Sims',
     disabled : true,
     disableReason : 'Disabled by Administrator!'
+  },{
+    pin : '20330',
+    nameFirst : 'Michael',
+    nameLast : 'Nye-Madden',
+    disabled : true,
+    disableReason : 'Abuse of Library Pass privleges.'
   });
+});
+Signin.find({}).remove(function() {
+  Signin.create();
 });
 
 User.find({}).remove(function() {

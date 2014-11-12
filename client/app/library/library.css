@@ -2,6 +2,10 @@
     margin: 20px 0;
 }
 
+.red-background {
+    background-color: red;
+}
+
 #banner {
     border-bottom: none;
     margin-top: -20px;

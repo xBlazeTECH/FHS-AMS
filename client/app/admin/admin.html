@@ -1,12 +1,78 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container">
-  <p>The delete user and user index api routes are restricted to users with the 'admin' role.</p>
-  <ul class="list-group">
-    <li class="list-group-item" ng-repeat="user in users">
-        <strong>{{user.name}}</strong><br>
-        <span class="text-muted">{{user.email}}</span>
-        <a ng-click="delete(user)" class="trash"><span class="glyphicon glyphicon-trash pull-right"></span></a>
-    </li>
+  <p>This page is only visible if you are logged in.</p>
+  
+  <!-- Put a Menu Here (Display only the part of the website selected by the menu) -->
+  <ul class="nav nav-tabs">
+    <li ng-class="activeTab == 'signins' ? 'active' : ''" ng-click="activeTab = 'signins'"><a href="">Sign-Ins</a></li>
+    <li ng-class="activeTab == 'students' ? 'active' : ''" ng-click="activeTab = 'students'"><a href="">Students</a></li>
+    <li ng-class="activeTab == 'faculty' ? 'active' : ''" ng-click="activeTab ='faculty'"><a href="">Faculty</a></li>
   </ul>
+  <div id="signins" ng-show="activeTab == 'signins'">
+    <div class="well">
+      <div class="table-responsive">
+        <div class="input-group" ng-show="searchType == 'global'">
+          <span class="input-group-addon">Global Search:</span>
+          <input type="text" class="form-control" placeholder="Enter search query..." ng-model="search.$">
+        </div> 
+        <div class="input-group">
+          <div class="input-group-btn">
+            <button type="button" tooltip="test" class="btn btn-default dropdown-toggle" data-toggle="dropdown">{{searchType}} <span class="caret"></span></button>
+            <ul class="dropdown-menu" role="menu">
+              <li><a ng-click="searchType = 'Global Search'">Global Search</a></li>
+              <li class="divider"></li>
+              <li><a ng-click="searchType = 'Place Search'">Search By Place.</a></li>
+              <li><a ng-click="searchType = 'Pin Search'">Search By Pin.</a></li>
+              <li><a ng-click="searchType = 'First Name Search'">Search By First Name.</a></li>
+              <li><a ng-click="searchType = 'Last Name Search'">Search By Last Name.</a></li>
+            </ul>
+          </div><!-- /btn-group -->
+          <input type="text" class="form-control" placeholder="Enter search query..." ng-show="searchType == 'Global Search'" ng-model="search.$">
+          <input type="text" class="form-control" placeholder="Enter search query..." ng-show="searchType == 'Place Search'" ng-model="search.place">
+          <input type="text" class="form-control" placeholder="Enter search query..." ng-show="searchType == 'Pin Search'" ng-model="search.pin">
+          <input type="text" class="form-control" placeholder="Enter search query..." ng-show="searchType == 'First Name Search'" ng-model="search.nameFirst">
+          <input type="text" class="form-control" placeholder="Enter search query..." ng-show="searchType == 'Last Name Search'" ng-model="search.nameLast">
+        </div><!-- /input-group -->
+      </div>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Time/Date</th>
+          <th>Place</th>
+          <th>Pin</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="signin in signins | filter:search">
+        <tr>
+          <td>{{signin.time}}</td>
+          <td>{{signin.place}}</td>
+          <td>{{signin.pin}}</td>
+          <td>{{signin.nameFirst}}</td>
+          <td>{{signin.nameLast}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div id="students" ng-show="activeTab == 'students'">
+    <ul class="list-group">
+      <li class="list-group-item" ng-repeat="profile in profiles">
+          <strong>{{profile.pin}}</strong><br>
+          <span class="text-muted">{{profile.nameFirst}} {{profile.nameLast}}</span>
+          <a ng-click="delProfile(profile)" class="trash"><span class="glyphicon glyphicon-trash pull-right"></span></a>
+      </li>
+    </ul>
+  </div>
+  <div id="faculty" ng-show="activeTab == 'faculty'">
+    <ul class="list-group">
+      <li class="list-group-item" ng-repeat="user in users">
+          <strong>{{user.name}}</strong><br>
+          <span class="text-muted">{{user.email}}</span>
+          <a ng-click="delUser(user)" class="trash"><span class="glyphicon glyphicon-trash pull-right"></span></a>
+      </li>
+    </ul>
+  </div>
 </div>

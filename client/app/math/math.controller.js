@@ -2,10 +2,14 @@
 
 angular.module('fhsLibApp')
   .controller('MathCtrl', function ($scope, $http, $window, $location, $timeout, socket) {
+    String.prototype.isFirstCapital = function() {
+      return /^[a-z]/i.test(this) && this.charAt(0) === this.charAt(0).toUpperCase();   
+    }
     $scope.needMoreInfo = false;
     $scope.pinValidated = false;
+    $scope.globalError = false;
     
-    $scope.profiles = [];
+    $scope.profids = [];
     
     $scope.nameFirst = '';
     $scope.firstname_valid = false;
@@ -20,7 +24,7 @@ angular.module('fhsLibApp')
     
     $scope.disabledReason = 'No futher information provided!';
     
-    $scope.formStyle = 'panel-primary';
+    $scope.formStyle = 'panel-default';
     
     /*
       Form State: What is the state of the data entered?
@@ -37,29 +41,37 @@ angular.module('fhsLibApp')
     function setFormState(number) {
       $scope.formState = number;
       if ($scope.formState == 0) {
-        $scope.formStyle = 'panel-info';
+        $scope.formStyle = 'panel-default';
         changeAlertState('Awaiting Input: ','Please start by typing in your pin number.','info');
+        $scope.globalError = false;
       } else if ($scope.formState == 1) {
-        $scope.formStyle = 'panel-danger';
+        $scope.formStyle = 'panel-default';
         changeAlertState('Invalid Pin: ','Please make sure that the pin is correct!','danger');
+        $scope.globalError = false;
       } else if ($scope.formState == 2) {
         $scope.formStyle = 'panel-warning';
         changeAlertState('Missing Info: ','It seems you have not signed in before... Please provide more information:','warning');
+        $scope.globalError = false;
       } else if ($scope.formState == 3) {
         $scope.formStyle = 'panel-success';
-        changeAlertState('Thank you! ','Ensuring the safety of your school is everyone\'s responsibility.','success');
+        changeAlertState('Thank you! ','We apologize for our mistake. Thank you for entering your correct name!','success');
+        $scope.globalError = false;
       } else if ($scope.formState == 4) {
-        $scope.formStyle = 'panel-success';
+        $scope.formStyle = 'panel-default';
         changeAlertState('Found Your Profile: ','Please verify your name before you log in.','success');
+        $scope.globalError = false;
       } else if ($scope.formState == 5) {
         $scope.formStyle = 'panel-danger';
         changeAlertState('ACCESS DENIED: ','YOU ARE NOT PERMITTED TO ACCESS THE LIBRARY AT THIS TIME!','danger');
+        $scope.globalError = true;
       } else if ($scope.formState == 6) {
         $scope.formStyle = 'panel-warning';
-        changeAlertState('Sorry About That','Kindly correct the information, and it will be reviewed by attendance.','danger');
+        changeAlertState('Sorry About That, ','Kindly make the correction to your name below, and attendance will make the fix.','danger');
+        $scope.globalError = false;
       } else if ($scope.formState == 7) {
         $scope.formStyle = 'panel-success';
-        changeAlertState('Welcome back,' + $scope.nameFirst + '!','Please enjoy your time at the library!','success');
+        changeAlertState('Welcome back,' + $scope.nameFirst + '!','Thank you for signing in!','success');
+        $scope.globalError = false;
       } else {
         $scope.formStyle = 'panel-warning';
         changeAlertState('Unknown State: ',' We are in an undefined state!');
@@ -99,27 +111,45 @@ angular.module('fhsLibApp')
       socket.syncUpdates('profile', $scope.profiles);
     });
     
-    $scope.submit = function() {
-      if ($scope.formState == 3) { // Profile did not exist, add it to the database.
-      $http.post('/api/profiles', 
-        {
+    var deleteProfile = function(profile) {
+      $http.delete('/api/profiles/' + profile._id);
+    };
+    var addProfile = function() {
+      $http.post('/api/profiles', {
           pin: $scope.pin,
           nameFirst: $scope.nameFirst,
           nameLast: $scope.nameLast,
           disabled: false
-        }
-      );
-      } else if ($scope.formState == 4) { // Profile already existed so no reason to add it to the database.
+      });
+    };
+    
+    $scope.submit = function() {
+      var currpin = $scope.pin;
+      for (var i in $scope.profiles) {
+        var prof = $scope.profiles[i];
+        if (prof.pin == currpin) var existingProf = prof;
+      }
+      if (existingProf) { // Profile Exists
+        deleteProfile(existingProf);
+        console.log('Profile Exists!');
+        addProfile();
         setFormState(7);
-        $timeout($scope.clearPin,3000);
-      } else if ($scope.formState == 6) { // Profile already existed but a name was incorrect.
-        if ($scope.firstname_valid && $scope.lastname_valid) {
-          setFormState(3);
-        } else {
-          setFormState(2);
-        }
+        $timeout($scope.clearPin,1400);
+      } else { // Profile Doesn't Exist
+        console.log('Profile Doesn\'t Exist!');
+        addProfile();
+        setFormState(7);
+        $timeout($scope.clearPin,1400);
       }
     }
+    
+    $scope.nameWrong = function() {
+      setFormState(6);
+    }
+    
+    function chgcolor(paneltype) {
+    }
+    
     
     function pinbackspace() {
       $scope.pin = $scope.pin.slice(0,-1);
@@ -153,6 +183,47 @@ angular.module('fhsLibApp')
               } else {
                 $scope.alertState.message = 'Reason: No reason specified. Please See Librarian';
               }
+              $scope.globalError = true;
+              $timeout(function() {
+                $scope.formStyle = 'panel-default';
+                $scope.globalError = false;
+              },100);
+              $timeout(function() {
+                $scope.formStyle = 'panel-danger';
+                $scope.globalError = true;
+              },200);
+              $timeout(function() {
+                $scope.formStyle = 'panel-default';
+                $scope.globalError = false;
+              },300);
+              $timeout(function() {
+                $scope.formStyle = 'panel-danger';
+                $scope.globalError = true;
+              },400);
+              $timeout(function() {
+                $scope.formStyle = 'panel-default';
+                $scope.globalError = false;
+              },500);
+              $timeout(function() {
+                $scope.formStyle = 'panel-danger';
+                $scope.globalError = true;
+              },600);
+              $timeout(function() {
+                $scope.formStyle = 'panel-default';
+                $scope.globalError = false;
+              },700);
+              $timeout(function() {
+                $scope.formStyle = 'panel-danger';
+                $scope.globalError = true;
+              },800);
+              $timeout(function() {
+                $scope.formStyle = 'panel-default';
+                $scope.globalError = false;
+              },900);
+              $timeout(function() {
+                $scope.formStyle = 'panel-danger';
+                $scope.globalError = true;
+              },1000);
               return;
             }
             setFormState(4);
@@ -174,6 +245,12 @@ angular.module('fhsLibApp')
     }
     
     $scope.updateName = function(part) {
+      if (!$scope.nameFirst.isFirstCapital()) {
+        $scope.nameFirst = $scope.nameFirst.toUpperCase();
+      }
+      if (!$scope.nameLast.isFirstCapital()) {
+        $scope.nameLast = $scope.nameLast.toUpperCase();
+      }
       if ($scope.nameFirst != '') {
         $scope.firstname_valid = true;
       } else {
@@ -183,6 +260,11 @@ angular.module('fhsLibApp')
         $scope.lastname_valid = true;
       } else {
         $scope.lastname_valid = false;
+      }
+      if($scope.firstname_valid && $scope.lastname_valid) {
+        setFormState(3);
+      } else {
+        setFormState(2);
       }
     }
     
