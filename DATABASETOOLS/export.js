@@ -11,7 +11,7 @@ var server = http.createServer(function(request, response) {
   response.end(data);
   process.exit(1);
 });
-server.listen(9001);
+server.listen(settings.port);
 
 mongo.connect('mongodb://localhost/fhslib-dev',{});
 
