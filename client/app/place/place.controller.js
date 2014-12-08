@@ -149,16 +149,16 @@ angular.module('fhsLibApp')
     var updateProfile = function(profile) {
       $http.put('/api/profiles/' + profile._id, {
         pin: $scope.pin,
-        nameFirst: $scope.nameFirst,
-        nameLast: $scope.nameLast,
+        first_name: $scope.nameFirst,
+        last_name: $scope.nameLast,
         disabled: false
       });
     };
     var addProfile = function() {
       $http.post('/api/profiles', {
           pin: $scope.pin,
-          nameFirst: $scope.nameFirst,
-          nameLast: $scope.nameLast,
+          first_name: $scope.nameFirst,
+          last_name: $scope.nameLast,
           disabled: false
       });
     };
@@ -190,8 +190,8 @@ angular.module('fhsLibApp')
         time: $scope.timedate,
         place: $scope.option.title,
         pin: $scope.pin,
-        nameFirst: $scope.nameFirst,
-        nameLast: $scope.nameLast
+        first_name: $scope.nameFirst,
+        last_name: $scope.nameLast
       });
     }
     
@@ -288,9 +288,11 @@ angular.module('fhsLibApp')
               return;
             }
             setFormState(4);
-            $scope.nameFirst = $scope.profiles[i].nameFirst;
+            console.log('First Name:' + JSON.stringify($scope.profiles[i]));
+            console.log('Last Name:' + JSON.stringify($scope.profiles[i]));
+            $scope.nameFirst = $scope.profiles[i].first_name;
             $scope.firstname_valid = true;
-            $scope.nameLast = $scope.profiles[i].nameLast;
+            $scope.nameLast = $scope.profiles[i].last_name;
             $scope.lastname_valid = true;
             return;
           } else {
@@ -312,6 +314,8 @@ angular.module('fhsLibApp')
       if (!$scope.nameLast.isFirstCapital()) {
         $scope.nameLast = $scope.nameLast.toUpperCase();
       }
+      $scope.nameFirst = $scope.nameFirst.trim();
+      $scope.nameLast = $scope.nameLast.trim();
       if ($scope.nameFirst != '') {
         $scope.firstname_valid = true;
       } else {

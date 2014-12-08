@@ -31,8 +31,8 @@
           <input type="text" class="form-control" placeholder="Enter search query..." ng-show="searchType == 'Global Search'" ng-model="search.$">
           <input type="text" class="form-control" placeholder="Enter search query..." ng-show="searchType == 'Place Search'" ng-model="search.place">
           <input type="text" class="form-control" placeholder="Enter search query..." ng-show="searchType == 'Pin Search'" ng-model="search.pin">
-          <input type="text" class="form-control" placeholder="Enter search query..." ng-show="searchType == 'First Name Search'" ng-model="search.nameFirst">
-          <input type="text" class="form-control" placeholder="Enter search query..." ng-show="searchType == 'Last Name Search'" ng-model="search.nameLast">
+          <input type="text" class="form-control" placeholder="Enter search query..." ng-show="searchType == 'First Name Search'" ng-model="search.first_name">
+          <input type="text" class="form-control" placeholder="Enter search query..." ng-show="searchType == 'Last Name Search'" ng-model="search.last_name">
         </div><!-- /input-group -->
       </div>
     </div>
@@ -51,8 +51,8 @@
           <td>{{signin.time}}</td>
           <td>{{signin.place}}</td>
           <td>{{signin.pin}}</td>
-          <td>{{signin.nameFirst}}</td>
-          <td>{{signin.nameLast}}</td>
+          <td>{{signin.first_name}}</td>
+          <td>{{signin.last_name}}</td>
         </tr>
       </tbody>
     </table>
@@ -61,7 +61,7 @@
     <ul class="list-group">
       <li class="list-group-item" ng-repeat="profile in profiles">
           <strong>{{profile.pin}}</strong><br>
-          <span class="text-muted">{{profile.nameFirst}} {{profile.nameLast}}</span>
+          <span class="text-muted">{{profile.first_name}} {{profile.last_name}}</span>
           <a ng-click="delProfile(profile)" class="trash"><span class="glyphicon glyphicon-trash pull-right"></span></a>
       </li>
     </ul>
