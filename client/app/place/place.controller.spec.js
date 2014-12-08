@@ -1,12 +1,12 @@
 'use strict';
 
-describe('Controller: MathCtrl', function () {
+describe('Controller: PlaceCtrl', function () {
 
   // load the controller's module
   beforeEach(module('fhsLibApp'));
   beforeEach(module('socketMock'));
 
-  var MathCtrl,
+  var PlaceCtrl,
       scope,
       $httpBackend;
 
@@ -17,7 +17,7 @@ describe('Controller: MathCtrl', function () {
       .respond(['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express']);
 
     scope = $rootScope.$new();
-    MathCtrl = $controller('MathCtrl', {
+    PlaceCtrl = $controller('PlaceCtrl', {
       $scope: scope
     });
   }));

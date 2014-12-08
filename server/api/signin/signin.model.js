@@ -7,8 +7,8 @@ var SigninSchema = new Schema({
   time: String,
   place: String, //Make this an enum Eventually
   pin: String,
-  nameFirst: String,
-  nameLast: String
+  first_name: String,
+  last_name: String
 });
 
 module.exports = mongoose.model('Signin', SigninSchema);

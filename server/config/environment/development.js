@@ -8,5 +8,5 @@ module.exports = {
     uri: 'mongodb://localhost/fhslib-dev'
   },
 
-  seedDB: true
+  seedDB: false
 };

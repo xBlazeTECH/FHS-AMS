@@ -4,7 +4,7 @@
  * POST    /profiles              ->  create
  * GET     /profiles/:id          ->  show
  * PUT     /profiles/:id          ->  update
- * DELETE  /profiles/:id          ->  destroy
+ * DISABLED: DELETE  /profiles/:id          ->  destroy
  */
 
 'use strict';

@@ -5,8 +5,8 @@ var mongoose = require('mongoose'),
 
 var ProfileSchema = new Schema({
   pin: String,
-  nameFirst: String,
-  nameLast: String,
+  first_name: String,
+  last_name: String,
   disabled: Boolean,
   disableReason: String
 });

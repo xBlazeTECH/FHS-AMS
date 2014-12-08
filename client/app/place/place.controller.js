@@ -1,7 +1,31 @@
 'use strict';
 
 angular.module('fhsLibApp')
-  .controller('MathCtrl', function ($scope, $http, $window, $location, $timeout, socket) {
+  .controller('PlaceCtrl', function ($scope, $http, $state, $window, $location, $timeout, $interval, socket) {
+    
+    $scope.place = $state.params.place;
+    
+    var pages = {
+      library: {
+        title: 'School Library',
+        shortTitle: 'Library'
+      },
+      math: {
+        title: 'Math Tutorial',
+        shortTitle: 'Math'
+      },
+      science: {
+        title: 'Science Tutorial',
+        shortTitle: 'Science'
+      }
+    };
+    
+    $scope.option = pages[$state.params.place];
+    console.log('$state.params.place:' + $scope.place.toString());
+    console.log('pages[$state.params.place]: ' + pages[$state.params.place]);
+        
+    $scope.timedate = '*CONNECTION ERROR*';
+    $scope.debug = false;
     String.prototype.isFirstCapital = function() {
       return /^[a-z]/i.test(this) && this.charAt(0) === this.charAt(0).toUpperCase();   
     }
@@ -11,15 +35,23 @@ angular.module('fhsLibApp')
     
     $scope.profids = [];
     
+    $interval(function(){myTimer()}, 1000);
+
+    function myTimer() {
+      var d = new Date();
+      var t = d.toLocaleString();
+      $scope.timedate = t;
+    }
+    
     $scope.nameFirst = '';
     $scope.firstname_valid = false;
     $scope.nameLast = '';
     $scope.lastname_valid = false;
     
     $scope.alertState = {
-      "title":"Awaiting Input:",
-      "message":"Please enter your student pin below...",
-      "style":"info"
+      title:"Awaiting Input:",
+      message:"Please enter your student pin below...",
+      style:"info"
     };
     
     $scope.disabledReason = 'No futher information provided!';
@@ -50,11 +82,11 @@ angular.module('fhsLibApp')
         $scope.globalError = false;
       } else if ($scope.formState == 2) {
         $scope.formStyle = 'panel-warning';
-        changeAlertState('Missing Info: ','It seems you have not signed in before... Please provide more information:','warning');
+        changeAlertState('Missing Info: ','It seems as though we do not have you in our records. Please fill out your name for us.','warning');
         $scope.globalError = false;
       } else if ($scope.formState == 3) {
         $scope.formStyle = 'panel-success';
-        changeAlertState('Thank you! ','We apologize for our mistake. Thank you for entering your correct name!','success');
+        changeAlertState('Thank you! ','Please just verify that your PIN, and name are correct, then click "Sign In"!','success');
         $scope.globalError = false;
       } else if ($scope.formState == 4) {
         $scope.formStyle = 'panel-default';
@@ -114,6 +146,14 @@ angular.module('fhsLibApp')
     var deleteProfile = function(profile) {
       $http.delete('/api/profiles/' + profile._id);
     };
+    var updateProfile = function(profile) {
+      $http.put('/api/profiles/' + profile._id, {
+        pin: $scope.pin,
+        nameFirst: $scope.nameFirst,
+        nameLast: $scope.nameLast,
+        disabled: false
+      });
+    };
     var addProfile = function() {
       $http.post('/api/profiles', {
           pin: $scope.pin,
@@ -129,18 +169,30 @@ angular.module('fhsLibApp')
         var prof = $scope.profiles[i];
         if (prof.pin == currpin) var existingProf = prof;
       }
-      if (existingProf) { // Profile Exists
+      if (existingProf) {// Profile Exists
         deleteProfile(existingProf);
         console.log('Profile Exists!');
         addProfile();
+        signIn();
         setFormState(7);
         $timeout($scope.clearPin,1400);
-      } else { // Profile Doesn't Exist
+      } else { //Profile Doesn't Exist
         console.log('Profile Doesn\'t Exist!');
         addProfile();
+        signIn();
         setFormState(7);
         $timeout($scope.clearPin,1400);
       }
+    }
+        
+    var signIn = function() {
+      $http.post('/api/signins', {
+        time: $scope.timedate,
+        place: $scope.option.title,
+        pin: $scope.pin,
+        nameFirst: $scope.nameFirst,
+        nameLast: $scope.nameLast
+      });
     }
     
     $scope.nameWrong = function() {
@@ -149,7 +201,6 @@ angular.module('fhsLibApp')
     
     function chgcolor(paneltype) {
     }
-    
     
     function pinbackspace() {
       $scope.pin = $scope.pin.slice(0,-1);
@@ -186,42 +237,52 @@ angular.module('fhsLibApp')
               $scope.globalError = true;
               $timeout(function() {
                 $scope.formStyle = 'panel-default';
+                $scope.alertState.style = 'warning';
                 $scope.globalError = false;
               },100);
               $timeout(function() {
                 $scope.formStyle = 'panel-danger';
+                $scope.alertState.style = 'danger';
                 $scope.globalError = true;
               },200);
               $timeout(function() {
                 $scope.formStyle = 'panel-default';
+                $scope.alertState.style = 'warning';
                 $scope.globalError = false;
               },300);
               $timeout(function() {
                 $scope.formStyle = 'panel-danger';
+                $scope.alertState.style = 'danger';
                 $scope.globalError = true;
               },400);
               $timeout(function() {
                 $scope.formStyle = 'panel-default';
+                $scope.alertState.style = 'warning';
                 $scope.globalError = false;
               },500);
               $timeout(function() {
                 $scope.formStyle = 'panel-danger';
+                $scope.alertState.style = 'danger';
                 $scope.globalError = true;
               },600);
               $timeout(function() {
                 $scope.formStyle = 'panel-default';
+                $scope.alertState.style = 'warning';
                 $scope.globalError = false;
               },700);
               $timeout(function() {
                 $scope.formStyle = 'panel-danger';
+                $scope.alertState.style = 'danger';
                 $scope.globalError = true;
               },800);
               $timeout(function() {
                 $scope.formStyle = 'panel-default';
+                $scope.alertState.style = 'warning';
                 $scope.globalError = false;
               },900);
               $timeout(function() {
                 $scope.formStyle = 'panel-danger';
+                $scope.alertState.style = 'danger';
                 $scope.globalError = true;
               },1000);
               return;
