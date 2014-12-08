@@ -20,6 +20,10 @@ angular.module('fhsLibApp')
       }
     };
     
+    $scope.onPinKeypress = function(event) {
+      
+    };
+    
     $scope.option = pages[$state.params.place];
     console.log('$state.params.place:' + $scope.place.toString());
     console.log('pages[$state.params.place]: ' + pages[$state.params.place]);
@@ -164,6 +168,7 @@ angular.module('fhsLibApp')
     };
     
     $scope.submit = function() {
+      if (!($scope.formState == 3 || $scope.formState == 4)) return;
       var currpin = $scope.pin;
       for (var i in $scope.profiles) {
         var prof = $scope.profiles[i];
@@ -234,57 +239,9 @@ angular.module('fhsLibApp')
               } else {
                 $scope.alertState.message = 'Reason: No reason specified. Please See Librarian';
               }
+              $scope.formStyle = 'panel-danger';
+              $scope.alertState.style = 'danger';
               $scope.globalError = true;
-              $timeout(function() {
-                $scope.formStyle = 'panel-default';
-                $scope.alertState.style = 'warning';
-                $scope.globalError = false;
-              },100);
-              $timeout(function() {
-                $scope.formStyle = 'panel-danger';
-                $scope.alertState.style = 'danger';
-                $scope.globalError = true;
-              },200);
-              $timeout(function() {
-                $scope.formStyle = 'panel-default';
-                $scope.alertState.style = 'warning';
-                $scope.globalError = false;
-              },300);
-              $timeout(function() {
-                $scope.formStyle = 'panel-danger';
-                $scope.alertState.style = 'danger';
-                $scope.globalError = true;
-              },400);
-              $timeout(function() {
-                $scope.formStyle = 'panel-default';
-                $scope.alertState.style = 'warning';
-                $scope.globalError = false;
-              },500);
-              $timeout(function() {
-                $scope.formStyle = 'panel-danger';
-                $scope.alertState.style = 'danger';
-                $scope.globalError = true;
-              },600);
-              $timeout(function() {
-                $scope.formStyle = 'panel-default';
-                $scope.alertState.style = 'warning';
-                $scope.globalError = false;
-              },700);
-              $timeout(function() {
-                $scope.formStyle = 'panel-danger';
-                $scope.alertState.style = 'danger';
-                $scope.globalError = true;
-              },800);
-              $timeout(function() {
-                $scope.formStyle = 'panel-default';
-                $scope.alertState.style = 'warning';
-                $scope.globalError = false;
-              },900);
-              $timeout(function() {
-                $scope.formStyle = 'panel-danger';
-                $scope.alertState.style = 'danger';
-                $scope.globalError = true;
-              },1000);
               return;
             }
             setFormState(4);
@@ -307,15 +264,19 @@ angular.module('fhsLibApp')
       }
     }
     
-    $scope.updateName = function(part) {
+    function hasWhiteSpace(s) {
+      return s.indexOf(' ') >= 0;
+    }
+    
+    $scope.updateName = function() {
+      $scope.nameFirst = $scope.nameFirst.replace(/\s/gi,'');
+      $scope.nameLast = $scope.nameLast.replace(/\s/gi,'');
       if (!$scope.nameFirst.isFirstCapital()) {
         $scope.nameFirst = $scope.nameFirst.toUpperCase();
       }
       if (!$scope.nameLast.isFirstCapital()) {
         $scope.nameLast = $scope.nameLast.toUpperCase();
       }
-      $scope.nameFirst = $scope.nameFirst.trim();
-      $scope.nameLast = $scope.nameLast.trim();
       if ($scope.nameFirst != '') {
         $scope.firstname_valid = true;
       } else {
