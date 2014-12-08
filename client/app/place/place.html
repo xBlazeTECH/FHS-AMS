@@ -10,7 +10,7 @@
     </div>
   </div>
 </header>
-<p class="hero-unit" ng-click="banner = !banner"></p>
+<p class="hero-unit" style="background: none repeat scroll 0% 0% #999;" ng-click="banner = !banner"><i class="glyphicon" ng-class="banner ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'"></i></p>
 <div ng-class="globalError ? 'red-background': ''">
 <div class="container">
   <div class="panel {{formStyle}}">
