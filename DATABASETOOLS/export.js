@@ -1,4 +1,4 @@
-var settings =  { filename: 'export.csv', port: 9001, host: 'localhost' };
+var settings =  { filename: 'latest-export.csv', port: 9001, host: 'localhost' };
 var mongo = require('mongoose');
 var fs = require('fs');
 var http = require('http');
