@@ -1,5 +1,5 @@
 <!--<div ng-include="'components/navbar/navbar.html'"></div>-->
-<header class="hero-unit" id="banner">
+<header class="hero-unit" id="banner" ng-show="disp-banner">
   <div class="container">
     <h1>Attendance Management System</h1>
     <p class="lead">Please choose the system that you would like to display:</p>
@@ -10,6 +10,7 @@
     </div>
   </div>
 </header>
+<p class="hero-unit" ng-click="disp-banner = !disp-banner"></p>
 <div ng-class="globalError ? 'red-background': ''">
 <div class="container">
   <div class="panel {{formStyle}}">

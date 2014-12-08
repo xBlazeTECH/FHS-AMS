@@ -2,7 +2,7 @@
 
 angular.module('fhsLibApp')
   .controller('PlaceCtrl', function ($scope, $http, $state, $window, $location, $timeout, $interval, socket) {
-    
+    $scope.disp-banner = false;
     $scope.place = $state.params.place;
     
     var pages = {
