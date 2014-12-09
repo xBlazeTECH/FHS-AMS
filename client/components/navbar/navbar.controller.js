@@ -16,6 +16,9 @@ angular.module('fhsLibApp')
     },{
       'title': 'Science Tutorial',
       'link': '/science'
+    },{
+      'title': 'Fitness Ctr',
+      'link': '/fitness'
     }
     ];
 

@@ -17,11 +17,11 @@ angular.module('fhsLibApp')
       science: {
         title: 'Science Tutorial',
         shortTitle: 'Science'
+      },
+      fitness: {
+        title: 'Fitness Center',
+        shortTitle: 'Fitness'
       }
-    };
-    
-    $scope.onPinKeypress = function(event) {
-      
     };
     
     $scope.option = pages[$state.params.place];
