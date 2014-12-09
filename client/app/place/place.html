@@ -1,4 +1,4 @@
-<!--<div ng-include="'components/navbar/navbar.html'"></div>-->
+<div ng-show="banner" ng-include="'components/navbar/navbar.html'"></div>
 <header class="hero-unit" id="banner" ng-show="banner">
   <div class="container">
     <h1>Attendance Management System</h1>
@@ -25,7 +25,7 @@
         </div>
         <p class="input-group input-group-lg" ng-hide="isFormState(7)">
           <span class="input-group-addon">PIN:</span>
-          <input tabindex="1" type="text" class="form-control" placeholder="Please enter your pin..." ng-disabled="isFormState(6)" ng-model="pin" ng-change="updatePin()" ng-keypress="onPinKeypress()">
+          <input ng-init="getFocus()" id="pinbox" tabindex="1" type="text" class="form-control" placeholder="Please enter your pin..." ng-disabled="isFormState(6)" ng-model="pin" ng-change="updatePin()" ng-keypress="onPinKeypress()">
           <span class="input-group-btn">
             <button tabindex="-1" class="btn btn-default disabled" type="button" ng-show="isFormState(0)">Nothing Entered <i class="glyphicon glyphicon-remove-sign"></i></button>
             <button tabindex="-1" class="btn btn-danger disabled" type="button" ng-show="isFormState(1)">Invalid Input <i class="glyphicon glyphicon-remove-sign"></i></button>

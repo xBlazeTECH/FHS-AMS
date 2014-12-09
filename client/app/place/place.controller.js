@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('fhsLibApp')
-  .controller('PlaceCtrl', function ($scope, $http, $state, $window, $location, $timeout, $interval, socket) {
+  .controller('PlaceCtrl', function ($scope, $http, $state, $window, $location, $timeout, $interval, $document, socket) {
     $scope.banner = false;
     $scope.place = $state.params.place;
     
@@ -150,6 +150,11 @@ angular.module('fhsLibApp')
     var deleteProfile = function(profile) {
       $http.delete('/api/profiles/' + profile._id);
     };
+    
+    $scope.getFocus = function() {
+      $document[0].getElementById("pinbox").focus();
+    }
+    
     var updateProfile = function(profile) {
       $http.put('/api/profiles/' + profile._id, {
         pin: $scope.pin,
@@ -158,6 +163,7 @@ angular.module('fhsLibApp')
         disabled: false
       });
     };
+    
     var addProfile = function() {
       $http.post('/api/profiles', {
           pin: $scope.pin,
