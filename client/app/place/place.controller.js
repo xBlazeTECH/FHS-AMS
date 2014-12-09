@@ -76,10 +76,10 @@ angular.module('fhsLibApp')
     function setFormState(number) {
       $scope.formState = number;
       if ($scope.formState == 0) {
-        $document[0].getElementById("pinbox").focus();
         $scope.formStyle = 'panel-default';
         changeAlertState('Awaiting Input: ','Please start by typing in your pin number.','info');
         $scope.globalError = false;
+        for (var i in $document) $document[i].getElementById("pinbox").focus();
       } else if ($scope.formState == 1) {
         $scope.formStyle = 'panel-default';
         changeAlertState('Invalid Pin: ','Please make sure that the pin is correct!','danger');
