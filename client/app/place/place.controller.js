@@ -73,10 +73,10 @@ angular.module('fhsLibApp')
         6: Valid Pin Entered, Profile Found. Profile Enabled. Name Incorrect.
         7: Valid Pin Entered, Profile Found. Profile Enabled. Signed In Successfully.
     */
-    $scope.formState = 0;
     function setFormState(number) {
       $scope.formState = number;
       if ($scope.formState == 0) {
+        $document[0].getElementById("pinbox").focus();
         $scope.formStyle = 'panel-default';
         changeAlertState('Awaiting Input: ','Please start by typing in your pin number.','info');
         $scope.globalError = false;
@@ -151,8 +151,8 @@ angular.module('fhsLibApp')
       $http.delete('/api/profiles/' + profile._id);
     };
     
-    $scope.getFocus = function() {
-      $document[0].getElementById("pinbox").focus();
+    $scope.onload = function() {
+      setFormState(0);
     }
     
     var updateProfile = function(profile) {

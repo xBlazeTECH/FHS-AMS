@@ -2,7 +2,13 @@
 
 angular.module('fhsLibApp')
   .controller('NavbarCtrl', function ($scope, $location, Auth) {
-    $scope.showing = false;
+    var showing = false;
+    $scope.isShowing = function() {
+      return showing;
+    };
+    $scope.toggleShowing = function() {
+      showing = !showing;
+    }
     $scope.menu = [
     {
       'title': 'Home',

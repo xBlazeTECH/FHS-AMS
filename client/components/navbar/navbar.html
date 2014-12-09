@@ -11,12 +11,17 @@
     </div>
     <div collapse="isCollapsed" class="navbar-collapse collapse" id="navbar-main">
       <ul class="nav navbar-nav">
-        <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
+        <li ng-class="{active: isShowing()}">
+          <a href="" ng-click="toggleShowing()">
+            <i class="glyphicon" ng-class="isShowing() ? 'glyphicon-chevron-right' : 'glyphicon-chevron-left'"></i>
+          </a>
+        </li>
+        <li ng-show="isShowing()" ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
           <a ng-href="{{item.link}}">{{item.title}}</a>
         </li>
       </ul>
       
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav navbar-right" ng-show="isShowing()">
         <!--<li ng-hide="isLoggedIn()" ng-class="{active: isActive('/signup')}"><a href="/signup">Sign up</a></li>-->
         <li ng-hide="isLoggedIn()" ng-class="{active: isActive('/login')}"><a href="/login">Faculty/Staff Login</a></li>
         <li ng-show="isAdmin()" ng-class="{active: isActive('/admin')}"><a href="/admin">Admin Control Panel</a></li>
@@ -27,3 +32,4 @@
     </div>
   </div>
 </div>
+

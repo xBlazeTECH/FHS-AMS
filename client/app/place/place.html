@@ -1,5 +1,5 @@
-<div ng-show="banner" ng-include="'components/navbar/navbar.html'"></div>
-<header class="hero-unit" id="banner" ng-show="banner">
+<div ng-include="'components/navbar/navbar.html'"></div>
+<!--<header class="hero-unit" id="banner" ng-show="banner">
   <div class="container">
     <h1>Attendance Management System</h1>
     <p class="lead">Please choose the system that you would like to display:</p>
@@ -9,8 +9,9 @@
       <a href="/science" class="btn btn-lg btn-primary">Science Tutorial Dash</a>
     </div>
   </div>
-</header>
-<p class="hero-unit" style="background: none repeat scroll 0% 0% #999;" ng-click="banner = !banner"><i class="glyphicon" ng-class="banner ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'"></i></p>
+</header>-->
+
+<!--<p class="hero-unit" style="background: none repeat scroll 0% 0% #999;" ng-click="banner = !banner"><i class="glyphicon" ng-class="banner ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'"></i></p>-->
 <div ng-class="globalError ? 'red-background': ''">
 <div class="container">
   <div class="panel {{formStyle}}">
@@ -19,13 +20,13 @@
     </div>
     <div class="panel-body panel-body-custom">
       <form class="thing-form" id="signin" ng-submit="submit()">
-        <label>Please fill out the following information in order to enter the Library.</label>
+        <label>Please fill out the following information in order to enter the {{option.title}}</label>
         <div class="btn-group-justified">
         <div class="alert alert-{{alertState.style}}"><strong>{{ alertState.title }}</strong> {{ alertState.message }}</div>
         </div>
         <p class="input-group input-group-lg" ng-hide="isFormState(7)">
           <span class="input-group-addon">PIN:</span>
-          <input ng-init="getFocus()" id="pinbox" tabindex="1" type="text" class="form-control" placeholder="Please enter your pin..." ng-disabled="isFormState(6)" ng-model="pin" ng-change="updatePin()" ng-keypress="onPinKeypress()">
+          <input id="pinbox" tabindex="1" type="text" class="form-control" placeholder="Please enter your pin..." ng-disabled="isFormState(6)" ng-model="pin" ng-change="updatePin()" ng-keypress="onPinKeypress()">
           <span class="input-group-btn">
             <button tabindex="-1" class="btn btn-default disabled" type="button" ng-show="isFormState(0)">Nothing Entered <i class="glyphicon glyphicon-remove-sign"></i></button>
             <button tabindex="-1" class="btn btn-danger disabled" type="button" ng-show="isFormState(1)">Invalid Input <i class="glyphicon glyphicon-remove-sign"></i></button>
@@ -75,4 +76,5 @@
   </div>
 </div>
 </div>
+<p ng-init="onload()"></p>
 <!--<div ng-include="'components/footer/footer.html'"></div>-->
