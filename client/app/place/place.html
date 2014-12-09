@@ -16,7 +16,7 @@
 <div class="container">
   <div class="panel {{formStyle}}">
     <div class="panel-heading">
-    <h1>{{option.title}} Sign-In</h1>
+    <h1><strong>{{option.title.toUpperCase()}}</strong> Sign-in System</h1>
     </div>
     <div class="panel-body panel-body-custom">
       <form class="thing-form" id="signin" ng-submit="submit()">
@@ -77,4 +77,4 @@
 </div>
 </div>
 <p ng-init="onload()"></p>
-<!--<div ng-include="'components/footer/footer.html'"></div>-->
+<div ng-include="'components/footer/footer.html'"></div>

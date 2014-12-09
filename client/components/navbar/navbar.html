@@ -7,15 +7,11 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a href="/" class="navbar-brand">FHS-AMS</a>
+      <a href="" class="navbar-brand" ng-click="toggleShowing()"><i class="glyphicon" ng-class="isShowing() ? 'glyphicon-chevron-right' : 'glyphicon-chevron-left'"></i></a>
+      <a href="/" class="navbar-brand" ng-show="showing">FHS-AMS</a>
     </div>
     <div collapse="isCollapsed" class="navbar-collapse collapse" id="navbar-main">
       <ul class="nav navbar-nav">
-        <li ng-class="{active: isShowing()}">
-          <a href="" ng-click="toggleShowing()">
-            <i class="glyphicon" ng-class="isShowing() ? 'glyphicon-chevron-right' : 'glyphicon-chevron-left'"></i>
-          </a>
-        </li>
         <li ng-show="isShowing()" ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
           <a ng-href="{{item.link}}">{{item.title}}</a>
         </li>
