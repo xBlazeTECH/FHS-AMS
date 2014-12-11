@@ -4,7 +4,6 @@ angular.module('fhsLibApp')
   .controller('PlaceCtrl', function ($scope, $http, $state, $window, $location, $timeout, $interval, $document, socket) {
     $scope.banner = false;
     $scope.place = $state.params.place;
-    
     var pages = {
       library: {
         title: 'School Library',
@@ -62,6 +61,12 @@ angular.module('fhsLibApp')
     
     $scope.formStyle = 'panel-default';
     
+    $scope.keypress = function(ev) {
+      console.log(ev);
+      if (!$scope.isFormState(0)) return;
+      $scope.pin += ev.which;
+    }
+    
     /*
       Form State: What is the state of the data entered?
         0: No data entered.
@@ -80,7 +85,7 @@ angular.module('fhsLibApp')
         changeAlertState('Awaiting Input: ','Please start by typing in your pin number.','info');
         $scope.globalError = false;
         $document[0].getElementById("pinbox").focus();
-        var pinbox = $document.getElementsByName("pinbox")[0];
+        var pinbox = $document[0].getElementById("pinbox");
         pinbox.focus();
       } else if ($scope.formState == 1) {
         $scope.formStyle = 'panel-default';
@@ -182,7 +187,10 @@ angular.module('fhsLibApp')
         var prof = $scope.profiles[i];
         if (prof.pin == currpin) var existingProf = prof;
       }
-      if (existingProf) {// Profile Exists
+      if (existingProf) { // Profile Exists
+        // Add Check if the Library is Full.
+        //$window.location.reload();
+        //$window.location.href = 'http://www.google.com';
         deleteProfile(existingProf);
         console.log('Profile Exists!');
         addProfile();

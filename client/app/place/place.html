@@ -12,7 +12,7 @@
 </header>-->
 
 <!--<p class="hero-unit" style="background: none repeat scroll 0% 0% #999;" ng-click="banner = !banner"><i class="glyphicon" ng-class="banner ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'"></i></p>-->
-<div ng-class="globalError ? 'red-background': ''">
+<div ng-class="globalError ? 'red-background': ''" ng-keypress="keypress($event)">
 <div class="container">
   <div class="panel {{formStyle}}">
     <div class="panel-heading">
