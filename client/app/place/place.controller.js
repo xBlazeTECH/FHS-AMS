@@ -107,7 +107,7 @@ angular.module('fhsLibApp')
         $scope.globalError = false;
       } else if ($scope.formState == 7) {
         $scope.formStyle = 'panel-success';
-        changeAlertState('Welcome back,' + $scope.nameFirst + '!','Thank you for signing in!','success');
+        changeAlertState('Welcome back, ' + $scope.nameFirst + '!','Thank you for signing in!','success');
         $scope.globalError = false;
       } else {
         $scope.formStyle = 'panel-warning';
@@ -183,21 +183,24 @@ angular.module('fhsLibApp')
       }
       if (existingProf) { // Profile Exists
         // Add Check if the Library is Full.
-        $window.location.reload();
         //$window.location.href = 'http://www.google.com';
         deleteProfile(existingProf);
         console.log('Profile Exists!');
         addProfile();
         signIn();
         setFormState(7);
-        $timeout($scope.clearPin,1400);
+        $timeout(reload,1200);
       } else { //Profile Doesn't Exist
         console.log('Profile Doesn\'t Exist!');
         addProfile();
         signIn();
         setFormState(7);
-        $timeout($scope.clearPin,1400);
+        $timeout(reload,1200);
       }
+    }
+    
+    function reload() {
+      $window.location.reload();
     }
         
     var signIn = function() {
