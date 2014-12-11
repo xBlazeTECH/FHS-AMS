@@ -61,12 +61,6 @@ angular.module('fhsLibApp')
     
     $scope.formStyle = 'panel-default';
     
-    $scope.keypress = function(ev) {
-      console.log(ev);
-      if (!$scope.isFormState(0)) return;
-      $scope.pin += ev.which;
-    }
-    
     /*
       Form State: What is the state of the data entered?
         0: No data entered.
@@ -189,7 +183,7 @@ angular.module('fhsLibApp')
       }
       if (existingProf) { // Profile Exists
         // Add Check if the Library is Full.
-        //$window.location.reload();
+        $window.location.reload();
         //$window.location.href = 'http://www.google.com';
         deleteProfile(existingProf);
         console.log('Profile Exists!');
