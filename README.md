@@ -1,4 +1,4 @@
-FHS-LIB
+FHS-AMS
 =======
 
-A new login system for the Farmington High School Library
+An Attendance Management Sign-in System for Farmington High School.
