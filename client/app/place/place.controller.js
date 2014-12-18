@@ -78,7 +78,8 @@ angular.module('fhsLibApp')
         $scope.formStyle = 'panel-default';
         changeAlertState('Awaiting Input: ','Please start by typing in your pin number.','info');
         $scope.globalError = false;
-        $document[0].getElementById("pinbox").focus();
+        if (!$document[0].getElementById("pinbox").focus()) // FIgure out how to see if box has focus
+        $document[0].getElementById("pinbox").focus();  // If not, give it focus, otherwise leave it alone.
         var pinbox = $document[0].getElementById("pinbox");
         pinbox.focus();
       } else if ($scope.formState == 1) {
@@ -189,13 +190,13 @@ angular.module('fhsLibApp')
         addProfile();
         signIn();
         setFormState(7);
-        $timeout(reload,1200);
+        $timeout($scope.clearPin,1200);
       } else { //Profile Doesn't Exist
         console.log('Profile Doesn\'t Exist!');
         addProfile();
         signIn();
         setFormState(7);
-        $timeout(reload,1200);
+        $timeout($scope.clearPin,1200);
       }
     }
     
