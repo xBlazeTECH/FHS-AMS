@@ -1,8 +1,10 @@
 'use strict';
 
-angular.module('fhsLibApp')
-  .controller('PlaceCtrl', function ($scope, $http, $state, $window, $location, $timeout, $interval, $document, socket) {
+var app = angular.module('fhsLibApp')
+
+app.controller('PlaceCtrl', function ($scope, $http, $state, $window, $location, $timeout, $interval, $document, socket) {
     $scope.banner = false;
+    $scope.pinFocus = false;
     $scope.place = $state.params.place;
     var pages = {
       library: {
@@ -78,10 +80,13 @@ angular.module('fhsLibApp')
         $scope.formStyle = 'panel-default';
         changeAlertState('Awaiting Input: ','Please start by typing in your pin number.','info');
         $scope.globalError = false;
-        if (!$document[0].getElementById("pinbox").focus()) // FIgure out how to see if box has focus
-        $document[0].getElementById("pinbox").focus();  // If not, give it focus, otherwise leave it alone.
-        var pinbox = $document[0].getElementById("pinbox");
-        pinbox.focus();
+	$scope.pinFocus = true;
+        //setTimeout($document[0].getElementById("pinbox").focus(),2000) // FIgure out how to see if box has focus
+	//console.log($document[0]);
+	//console.log($document[0].forms);
+	//console.log($document[0].forms[0]);
+	//console.log($document[0].forms[0].focus);
+        //setTimeout(function() { $document[0].forms[0].focus() },2000);
       } else if ($scope.formState == 1) {
         $scope.formStyle = 'panel-default';
         changeAlertState('Invalid Pin: ','Please make sure that the pin is correct!','danger');
@@ -312,3 +317,24 @@ angular.module('fhsLibApp')
       socket.unsyncUpdates('profiles');
     });
   });
+
+app.directive('focusMe', function($timeout, $parse) {
+  return {
+    link: function(scope,element,attrs) {
+      var model = $parse(attrs.focusMe);
+      scope.$watch(model, function(value) {
+        console.log('value=',value);
+        if(value === true) {
+          $timeout(function() {
+            element[0].focus();
+          });
+        }
+      });
+      element.bind('blur',function() {
+        console.log('blur')
+        scope.$apply(model.assign(scope,false));
+      });
+    }
+  }
+
+});

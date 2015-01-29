@@ -19,14 +19,14 @@
     <h1><strong>{{option.title.toUpperCase()}}</strong> Sign-in System</h1>
     </div>
     <div class="panel-body panel-body-custom">
-      <form class="thing-form" id="signin" ng-submit="submit()">
+      <form class="thing-form" name="signin" id="signin" ng-submit="submit()">
         <label>Please fill out the following information in order to enter the {{option.title}}</label>
         <div class="btn-group-justified">
         <div class="alert alert-{{alertState.style}}"><strong>{{ alertState.title }}</strong> {{ alertState.message }}</div>
         </div>
         <p class="input-group input-group-lg" ng-hide="isFormState(7)">
           <span class="input-group-addon">PIN:</span>
-          <input id="pinbox" tabindex="1" type="text" class="form-control" placeholder="Please enter your pin..." ng-disabled="isFormState(6)" ng-model="pin" ng-change="updatePin()" ng-keypress="onPinKeypress()">
+          <input id="pinbox" name="pinbox" tabindex="1" type="text" class="form-control" placeholder="Please enter your pin..." ng-disabled="isFormState(6)" ng-model="pin" ng-change="updatePin()" ng-keypress="onPinKeypress()" focus-me="pinFocus">
           <span class="input-group-btn">
             <button tabindex="-1" class="btn btn-default disabled" type="button" ng-show="isFormState(0)">Nothing Entered <i class="glyphicon glyphicon-remove-sign"></i></button>
             <button tabindex="-1" class="btn btn-danger disabled" type="button" ng-show="isFormState(1)">Invalid Input <i class="glyphicon glyphicon-remove-sign"></i></button>
