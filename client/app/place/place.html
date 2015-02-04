@@ -20,7 +20,7 @@
     </div>
     <div class="panel-body panel-body-custom">
       <form class="thing-form" name="signin" id="signin" ng-submit="submit()">
-        <label>Please fill out the following information in order to enter the {{option.title}}</label>
+        <label ng-hide="option.title == 'library'">Please fill out the following information in order to enter the {{option.title}}</label>
         <div class="btn-group-justified">
         <div class="alert alert-{{alertState.style}}"><strong>{{ alertState.title }}</strong> {{ alertState.message }}</div>
         </div>

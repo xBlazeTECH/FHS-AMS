@@ -5,6 +5,19 @@ var app = angular.module('fhsLibApp')
 app.controller('PlaceCtrl', function ($scope, $http, $state, $window, $location, $timeout, $interval, $document, socket) {
     $scope.banner = false;
     $scope.pinFocus = false;
+    
+    $scope.lib_max = 0;
+    $scope.lib_current = 0;
+    
+    $http.get('/api/setting').success(function(settings) {
+      for (var x in settings) {
+        if (settings[x].key == 'lib-max') {
+          $scope.lib_max = settings[x].value;
+        }
+      }
+      socket.syncUpdates('setting', $scope.lib_max);
+    });
+    
     $scope.place = $state.params.place;
     var pages = {
       library: {

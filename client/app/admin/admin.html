@@ -5,9 +5,10 @@
   
   <!-- Put a Menu Here (Display only the part of the website selected by the menu) -->
   <ul class="nav nav-tabs">
-    <li ng-class="activeTab == 'signins' ? 'active' : ''" ng-click="activeTab = 'signins'"><a href="">Sign-Ins</a></li>
-    <li ng-class="activeTab == 'students' ? 'active' : ''" ng-click="activeTab = 'students'"><a href="">Students</a></li>
-    <li ng-class="activeTab == 'faculty' ? 'active' : ''" ng-click="activeTab ='faculty'"><a href="">Faculty</a></li>
+    <li ng-class="activeTab == 'signins' ? 'active' : ''" ng-click="activeTab = 'signins'"><a href=""><i class="glyphicon glyphicon-list"></i> Sign-Ins</a></li>
+    <li ng-class="activeTab == 'students' ? 'active' : ''" ng-click="activeTab = 'students'"><a href=""><i class="glyphicon glyphicon-user"></i> Students</a></li>
+    <li ng-class="activeTab == 'faculty' ? 'active' : ''" ng-click="activeTab ='faculty'"><a href=""><i class="glyphicon glyphicon-eye-open"></i> Faculty</a></li>
+    <li ng-class="activeTab == 'settings' ? 'active' : ''" ng-click="activeTab = 'settings'"><a href=""><i class="glyphicon glyphicon-cog"></i> Settings</a></li>
   </ul>
   <div id="signins" ng-show="activeTab == 'signins'">
     <div class="well">
@@ -60,9 +61,9 @@
   <div id="students" ng-show="activeTab == 'students'">
     <ul class="list-group">
       <li class="list-group-item" ng-repeat="profile in profiles">
-          <strong>{{profile.pin}}</strong><br>
-          <span class="text-muted">{{profile.first_name}} {{profile.last_name}}</span>
-          <a ng-click="delProfile(profile)" class="trash"><span class="glyphicon glyphicon-trash pull-right"></span></a>
+        <strong>{{profile.pin}}</strong><br>
+        <span class="text-muted">{{profile.first_name}} {{profile.last_name}}</span>
+        <a ng-click="delProfile(profile)" class="trash"><span class="glyphicon glyphicon-trash pull-right"></span></a>
       </li>
     </ul>
   </div>
@@ -74,5 +75,27 @@
           <a ng-click="delUser(user)" class="trash"><span class="glyphicon glyphicon-trash pull-right"></span></a>
       </li>
     </ul>
+  </div>
+  <div id="settings" ng-show="activeTab == 'settings'">
+    <h3>Library Settings</h3>
+    <form class="max-students-form" name="signin" id="signin" ng-submit="put()">
+      <div class="input-group">
+        <span class="input-group-addon" id="students-max-label">Max Students: </span>
+        <input id="library-max-students" type="text" class="form-control" placeholder="0-50" aria-describedby="students-max-label" ng-model="lib_max">
+        <span class="input-group-btn">
+          <button class="btn btn-primary" ng-hide="lib_max == lib_max_remote" type="submit">Save Changes</button>
+        </span>
+      </div>
+    </form>
+    <form class="max-students-form" name="signin" id="signin" ng-submit="put()">
+      <div class="input-group">
+        <span class="input-group-addon" id="students-max-label">Current Students: </span>
+        <input id="library-max-students" type="text" class="form-control" placeholder="0-50" aria-describedby="students-max-label" ng-model="lib_max">
+        <span class="input-group-btn">
+          <button class="btn btn-primary" ng-hide="lib_max == lib_max_remote" type="submit">Save Changes</button>
+        </span>
+      </div>
+    </form>
+   </div>
   </div>
 </div>

@@ -5,9 +5,18 @@
 
 'use strict';
 
+var Setting = require('../api/setting/setting.model');
 var Profile = require('../api/profile/profile.model');
 var User = require('../api/user/user.model');
 var Signin = require('../api/signin/signin.model');
+
+Setting.find({}).remove(function() {
+  Setting.create({
+    key : 'lib-max',
+    type : 'number',
+    value : '20'
+  });
+});
 
 Profile.find({}).remove(function() {
   Profile.create({
